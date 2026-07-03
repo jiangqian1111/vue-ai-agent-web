@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import type { CSSProperties } from 'vue'
 import { computed, ref, watch } from 'vue'
-import { NButton, NLayoutSider, useDialog } from 'naive-ui'
+import { NButton, useDialog } from 'naive-ui'
 import List from './List.vue'
 import Footer from './Footer.vue'
 import { useAppStore, useChatStore } from '@/store'
@@ -75,43 +75,53 @@ watch(
 </script>
 
 <template>
-  <NLayoutSider
-    :collapsed="collapsed"
-    :collapsed-width="0"
-    :width="260"
-    :show-trigger="isMobile ? false : 'arrow-circle'"
-    collapse-mode="transform"
-    position="absolute"
-    bordered
-    :style="getMobileClass"
-    @update-collapsed="handleUpdateCollapsed"
-  >
-    <div class="flex flex-col h-full" :style="mobileSafeArea">
-      <main class="flex flex-col flex-1 min-h-0">
-        <div class="p-4">
-          <NButton dashed block @click="handleAdd">
-            {{ $t('chat.newChatButton') }}
-          </NButton>
-        </div>
-        <div class="flex-1 min-h-0 pb-4 overflow-hidden">
-          <List />
-        </div>
-        <div class="flex items-center p-4 space-x-4">
-          <div class="flex-1">
-            <NButton block @click="show = true">
-              {{ $t('store.siderButton') }}
+  <!--
+    桌面端侧边栏：透明背景，融入外层冷灰色
+    Naive UI NLayoutSider 替换为纯 div，避免自带边框和深色背景
+  -->
+  <template v-if="!isMobile || !collapsed">
+    <aside
+      class="h-full flex flex-col shrink-0 border-r border-neutral-100"
+      :class="isMobile ? 'w-[260px] fixed z-50 bg-white shadow-2xl' : 'w-[260px] bg-transparent'"
+      :style="getMobileClass"
+    >
+      <div class="flex flex-col h-full" :style="mobileSafeArea">
+        <main class="flex flex-col flex-1 min-h-0">
+          <!-- 新建对话按钮 -->
+          <div class="p-4">
+            <NButton dashed block @click="handleAdd" class="!rounded-xl">
+              {{ $t('chat.newChatButton') }}
             </NButton>
           </div>
-          <NButton @click="handleClearAll">
-            <SvgIcon icon="ri:close-circle-line" />
-          </NButton>
-        </div>
-      </main>
-      <Footer />
-    </div>
-  </NLayoutSider>
+
+          <!-- 对话列表 -->
+          <div class="flex-1 min-h-0 pb-2 overflow-hidden">
+            <List />
+          </div>
+
+          <!-- Prompt 商店 + 清空 -->
+          <div class="flex items-center px-4 pb-1 space-x-2">
+            <div class="flex-1">
+              <NButton block size="small" @click="show = true" class="!rounded-lg">
+                {{ $t('store.siderButton') }}
+              </NButton>
+            </div>
+            <NButton size="small" @click="handleClearAll" class="!rounded-lg">
+              <SvgIcon icon="ri:close-circle-line" />
+            </NButton>
+          </div>
+        </main>
+
+        <!-- 底部用户信息 -->
+        <Footer />
+      </div>
+    </aside>
+  </template>
+
+  <!-- 移动端遮罩 -->
   <template v-if="isMobile">
     <div v-show="!collapsed" class="fixed inset-0 z-40 w-full h-full bg-black/40" @click="handleUpdateCollapsed" />
   </template>
+
   <PromptStore v-model:visible="show" />
 </template>

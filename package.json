@@ -1,9 +1,9 @@
 {
-  "name": "chatgpt-web",
-  "version": "2.11.1",
-  "private": false,
-  "description": "ChatGPT Web",
-  "author": "ChenZhaoYu <chenzhaoyu1994@gmail.com>",
+  "name": "cradle-chat",
+  "version": "3.0.0",
+  "private": true,
+  "description": "A modern AI chat portal — powered by Fetch ReadableStream, Vue 3, and TypeScript",
+  "author": "Cradle Chat <hi@cradle.chat>",
   "keywords": [
     "chatgpt-web",
     "chatgpt",

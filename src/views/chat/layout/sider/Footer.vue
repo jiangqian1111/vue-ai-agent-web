@@ -8,13 +8,13 @@ const show = ref(false)
 </script>
 
 <template>
-  <footer class="flex items-center justify-between min-w-0 p-4 overflow-hidden border-t dark:border-neutral-800">
+  <footer class="flex items-center justify-between min-w-0 px-4 py-3 border-t border-neutral-100">
     <div class="flex-1 flex-shrink-0 overflow-hidden">
       <UserAvatar />
     </div>
 
     <HoverButton @click="show = true">
-      <span class="text-xl text-[#4f555e] dark:text-white">
+      <span class="text-lg text-neutral-400 hover:text-neutral-600 transition-colors">
         <SvgIcon icon="ri:settings-4-line" />
       </span>
     </HoverButton>

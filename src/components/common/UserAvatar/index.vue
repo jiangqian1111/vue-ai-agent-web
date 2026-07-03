@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import { NAvatar } from 'naive-ui'
 import { useUserStore } from '@/store'
-import defaultAvatar from '@/assets/avatar.jpg'
 import { isString } from '@/utils/is'
 
 const userStore = useUserStore()
@@ -12,29 +11,24 @@ const userInfo = computed(() => userStore.userInfo)
 
 <template>
   <div class="flex items-center overflow-hidden">
-    <div class="w-10 h-10 overflow-hidden rounded-full shrink-0">
+    <div class="w-9 h-9 overflow-hidden rounded-full shrink-0">
       <template v-if="isString(userInfo.avatar) && userInfo.avatar.length > 0">
         <NAvatar
-          size="large"
+          size="medium"
           round
           :src="userInfo.avatar"
-          :fallback-src="defaultAvatar"
         />
       </template>
       <template v-else>
-        <NAvatar size="large" round :src="defaultAvatar" />
+        <NAvatar size="medium" round :style="{ background: '#6366f1' }">
+          {{ (userInfo.name || 'U').charAt(0).toUpperCase() }}
+        </NAvatar>
       </template>
     </div>
-    <div class="flex-1 min-w-0 ml-2">
-      <h2 class="overflow-hidden font-bold text-md text-ellipsis whitespace-nowrap">
-        {{ userInfo.name ?? 'ChenZhaoYu' }}
+    <div class="flex-1 min-w-0 ml-2.5">
+      <h2 class="overflow-hidden text-sm font-semibold text-neutral-700 text-ellipsis whitespace-nowrap">
+        {{ userInfo.name ?? 'Cradle User' }}
       </h2>
-      <p class="overflow-hidden text-xs text-gray-500 text-ellipsis whitespace-nowrap">
-        <span
-          v-if="isString(userInfo.description) && userInfo.description !== ''"
-          v-html="userInfo.description"
-        />
-      </p>
     </div>
   </div>
 </template>

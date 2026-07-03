@@ -40,36 +40,50 @@ onMounted(() => {
 
 <template>
   <NSpin :show="loading">
-    <div class="p-4 space-y-4">
-      <h2 class="text-xl font-bold">
-        Version - {{ pkg.version }}
-      </h2>
-      <div class="p-2 space-y-2 rounded-md bg-neutral-100 dark:bg-neutral-700">
-        <p>
-          {{ $t("setting.openSource") }}
-          <a
-            class="text-blue-600 dark:text-blue-500"
-            href="https://github.com/Chanzhaoyu/chatgpt-web"
-            target="_blank"
-          >
-            GitHub
-          </a>
-          {{ $t("setting.freeMIT") }}
-        </p>
-        <p>
-          {{ $t("setting.stars") }}
+    <div class="p-4 space-y-5">
+      <!-- 项目信息 -->
+      <div class="text-center">
+        <h2 class="text-xl font-bold text-neutral-800">
+          Cradle Chat
+        </h2>
+        <p class="text-sm text-neutral-400 mt-1">
+          v{{ pkg.version }} · MIT License
         </p>
       </div>
-      <p>{{ $t("setting.api") }}：{{ config?.apiModel ?? '-' }}</p>
-      <p v-if="isChatGPTAPI">
-        {{ $t("setting.monthlyUsage") }}：{{ config?.usage ?? '-' }}
-      </p>
-      <p v-if="!isChatGPTAPI">
-        {{ $t("setting.reverseProxy") }}：{{ config?.reverseProxy ?? '-' }}
-      </p>
-      <p>{{ $t("setting.timeout") }}：{{ config?.timeoutMs ?? '-' }}</p>
-      <p>{{ $t("setting.socks") }}：{{ config?.socksProxy ?? '-' }}</p>
-      <p>{{ $t("setting.httpsProxy") }}：{{ config?.httpsProxy ?? '-' }}</p>
+
+      <!-- 技术栈 -->
+      <div class="p-3 space-y-2 rounded-xl bg-neutral-50 border border-neutral-100">
+        <p class="text-xs font-semibold text-neutral-400 uppercase tracking-wide">Tech Stack</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Vue 3</span>
+          <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">TypeScript</span>
+          <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Vite</span>
+          <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Pinia</span>
+          <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Tailwind CSS</span>
+          <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Naive UI</span>
+          <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Fetch + ReadableStream</span>
+        </div>
+      </div>
+
+      <!-- 配置信息 -->
+      <div class="space-y-2.5">
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-neutral-400">{{ $t("setting.api") }}</span>
+          <span class="font-mono text-neutral-600">{{ config?.apiModel ?? '-' }}</span>
+        </div>
+        <div v-if="isChatGPTAPI" class="flex items-center justify-between text-sm">
+          <span class="text-neutral-400">{{ $t("setting.monthlyUsage") }}</span>
+          <span class="font-mono text-neutral-600">{{ config?.usage ?? '-' }}</span>
+        </div>
+        <div v-if="!isChatGPTAPI" class="flex items-center justify-between text-sm">
+          <span class="text-neutral-400">{{ $t("setting.reverseProxy") }}</span>
+          <span class="font-mono text-neutral-600">{{ config?.reverseProxy ?? '-' }}</span>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-neutral-400">{{ $t("setting.timeout") }}</span>
+          <span class="font-mono text-neutral-600">{{ config?.timeoutMs ?? '-' }}ms</span>
+        </div>
+      </div>
     </div>
   </NSpin>
 </template>
