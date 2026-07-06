@@ -4,7 +4,7 @@ import { router } from '@/router'
 import { t } from '@/locales'
 
 export const useChatStore = defineStore('chat-store', {
-  state: (): Chat.ChatState => getLocalState(),
+  state: (): Chat.ChatState => defaultState(),
 
   getters: {
     getChatHistoryByCurrentActive(state: Chat.ChatState) {
@@ -24,6 +24,15 @@ export const useChatStore = defineStore('chat-store', {
   },
 
   actions: {
+    /**
+     * 从 IndexedDB 加载持久化数据并 patch 到当前 store
+     * 应该在应用初始化时调用（例如 App.vue 的 onMounted 中）
+     */
+    async hydrate() {
+      const savedState = await getLocalState()
+      this.$patch(savedState)
+    },
+
     setUsingContext(context: boolean) {
       this.usingContext = context
       this.recordState()
@@ -193,8 +202,12 @@ export const useChatStore = defineStore('chat-store', {
       await router.push({ name: 'Chat', params: { uuid } })
     },
 
+    /**
+     * 将当前状态持久化到 IndexedDB
+     * fire-and-forget —— 不阻塞 UI，失败时静默记录错误
+     */
     recordState() {
-      setLocalState(this.$state)
+      setLocalState(this.$state).catch(console.error)
     },
   },
 })

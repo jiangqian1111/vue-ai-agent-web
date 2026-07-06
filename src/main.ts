@@ -3,6 +3,7 @@ import App from './App.vue'
 import { setupI18n } from './locales'
 import { setupAssets, setupScrollbarStyle } from './plugins'
 import { setupStore } from './store'
+import { useChatStore } from './store'
 import { setupRouter } from './router'
 
 async function bootstrap() {
@@ -14,6 +15,10 @@ async function bootstrap() {
   setupStore(app)
 
   setupI18n(app)
+
+  // 从 IndexedDB 加载持久化的聊天数据
+  const chatStore = useChatStore()
+  await chatStore.hydrate()
 
   await setupRouter(app)
 

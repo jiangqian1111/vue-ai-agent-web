@@ -1,8 +1,11 @@
-import { ss } from '@/utils/storage'
+import { db } from '@/utils/db'
+import type { Conversation, Message } from '@/utils/db'
 import { t } from '@/locales'
 
-const LOCAL_NAME = 'chatStorage'
-
+/**
+ * 返回默认的初始状态（同步）
+ * 应用启动时先用这个填充 store，然后再从 IndexedDB 水合数据
+ */
 export function defaultState(): Chat.ChatState {
   const uuid = 1002
   return {
@@ -13,11 +16,79 @@ export function defaultState(): Chat.ChatState {
   }
 }
 
-export function getLocalState(): Chat.ChatState {
-  const localState = ss.get(LOCAL_NAME)
-  return { ...defaultState(), ...localState }
+/**
+ * 从 IndexedDB 读取聊天状态
+ * 把三张表的数据重新组装成 ChatState 结构
+ * 如果数据库为空（首次启动），返回 null，store 将保留默认状态
+ */
+export async function getLocalState(): Promise<Chat.ChatState | null> {
+  // 并行读取三张表
+  const [settings, conversations, allMessages] = await Promise.all([
+    db.settings.get(1),
+    db.conversations.toArray(),
+    db.messages.orderBy('sortIndex').toArray(),
+  ])
+
+  // 首次启动：没有任何持久化数据，返回 null 让 store 保持默认状态
+  if (!settings && conversations.length === 0)
+    return null
+
+  // 将 messages 按 conversationUuid 分组，还原为 chat: { uuid, data }[]
+  const chat = conversations.map((conv: Conversation) => ({
+    uuid: conv.uuid,
+    data: allMessages
+      .filter((m: Message) => m.conversationUuid === conv.uuid)
+      // 去掉 DB 专用字段（id, conversationUuid, sortIndex），还原为标准 Chat 结构
+      .map(({ id: _id, conversationUuid: _cId, sortIndex: _si, ...msg }) => msg as unknown as Chat.Chat),
+  }))
+
+  return {
+    active: settings?.active ?? defaultState().active,
+    usingContext: settings?.usingContext ?? true,
+    // DB 的 Conversation 结构正好和 Chat.History 兼容
+    history: conversations.map(({ uuid, title, isEdit }) => ({ uuid, title, isEdit })),
+    chat,
+  }
 }
 
-export function setLocalState(state: Chat.ChatState) {
-  ss.set(LOCAL_NAME, state)
+/**
+ * 将聊天状态写入 IndexedDB
+ * 在一个事务中完成三张表的替换
+ */
+export async function setLocalState(state: Chat.ChatState): Promise<void> {
+  await db.transaction('rw', db.conversations, db.messages, db.settings, async () => {
+    // 1. 清空旧数据
+    await db.conversations.clear()
+    await db.messages.clear()
+
+    // 2. 写入会话列表
+    await db.conversations.bulkPut(
+      state.history.map(h => ({ uuid: h.uuid, title: h.title, isEdit: h.isEdit })),
+    )
+
+    // 3. 将嵌套的 chat[].data[] 展平为 messages，附带 conversationUuid 和 sortIndex
+    const messages: Message[] = state.chat.flatMap(chatEntry =>
+      chatEntry.data.map((msg, index) => ({
+        conversationUuid: chatEntry.uuid,
+        sortIndex: index,
+        dateTime: msg.dateTime,
+        text: msg.text,
+        inversion: msg.inversion,
+        error: msg.error,
+        loading: msg.loading,
+        conversationOptions: msg.conversationOptions,
+        requestOptions: msg.requestOptions,
+      })),
+    )
+
+    if (messages.length > 0)
+      await db.messages.bulkPut(messages)
+
+    // 4. 写入全局设置（upsert）
+    await db.settings.put({
+      id: 1,
+      active: state.active,
+      usingContext: state.usingContext,
+    })
+  })
 }
