@@ -26,11 +26,12 @@ export const useChatStore = defineStore('chat-store', {
   actions: {
     /**
      * 从 IndexedDB 加载持久化数据并 patch 到当前 store
-     * 应该在应用初始化时调用（例如 App.vue 的 onMounted 中）
+     * 首次启动时 DB 为空，返回 null，保留 defaultState（含默认引导对话）
      */
     async hydrate() {
       const savedState = await getLocalState()
-      this.$patch(savedState)
+      if (savedState)
+        this.$patch(savedState)
     },
 
     setUsingContext(context: boolean) {
