@@ -515,7 +515,7 @@ onUnmounted(() => {
 
     <!-- 消息区域 -->
     <main class="flex-1 overflow-hidden">
-      <div id="scrollRef" ref="scrollRef" class="h-full overflow-hidden overflow-y-auto">
+      <div id="scrollRef" ref="scr  ollRef" class="h-full overflow-hidden overflow-y-auto">
         <div
           class="w-full max-w-screen-xl m-auto"
           :class="[isMobile ? 'p-2' : 'p-4']"
@@ -638,7 +638,7 @@ onUnmounted(() => {
                 @click="toggleUsingContext"
               >
                 <SvgIcon icon="ri:chat-history-line" class="text-sm" />
-                <span>{{ t('chat.usingContext') }}</span>
+                <span>上下文</span>
               </button>
 
               <!-- 清空对话 -->
@@ -648,7 +648,7 @@ onUnmounted(() => {
                 @click="handleClear"
               >
                 <SvgIcon icon="ri:delete-bin-line" class="text-sm" />
-                <span>{{ t('chat.clearSession') }}</span>
+                <span>清空</span>
               </button>
             </div>
 
