@@ -85,7 +85,7 @@ export default {
     monthlyUsage: '월 사용량',
     openSource: '이 프로젝트는 다음에서 오픈 소스로 제공됩니다:',
     freeMIT: '무료이며 MIT 라이선스에 기반하며, 어떠한 형태의 유료 행동도 없습니다!',
-    stars: '이 프로젝트가 도움이 되었다면, GitHub에서 별을 주거나 조금의 후원을 해주시면 감사하겠습니다!',
+    stars: 'MIT 라이선스로 오픈소스 제공. 자유롭게 사용 및 수정 가능.',
   },
   store: {
     siderButton: '프롬프트 저장소',

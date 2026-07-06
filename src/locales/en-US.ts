@@ -85,7 +85,7 @@ export default {
     monthlyUsage: 'Monthly Usage',
     openSource: 'This project is open sourced at',
     freeMIT: 'free and based on the MIT license, without any form of paid behavior!',
-    stars: 'If you find this project helpful, please give me a Star on GitHub or give a little sponsorship, thank you!',
+    stars: 'Open-sourced under the MIT License. Free to use and modify.',
   },
   store: {
     siderButton: 'Prompt Store',

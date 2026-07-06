@@ -44,10 +44,10 @@ onMounted(() => {
       <!-- 项目信息 -->
       <div class="text-center">
         <h2 class="text-xl font-bold text-neutral-800">
-          Cradle Chat
+          Nova Chat
         </h2>
         <p class="text-sm text-neutral-400 mt-1">
-          v{{ pkg.version }} · MIT License
+          v{{ pkg.version }} · MIT
         </p>
       </div>
 
@@ -61,6 +61,7 @@ onMounted(() => {
           <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Pinia</span>
           <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Tailwind CSS</span>
           <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Naive UI</span>
+          <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Dexie.js</span>
           <span class="px-2 py-0.5 text-xs rounded-md bg-white border border-neutral-200 text-neutral-600">Fetch + ReadableStream</span>
         </div>
       </div>

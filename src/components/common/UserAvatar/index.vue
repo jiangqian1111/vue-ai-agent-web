@@ -27,7 +27,7 @@ const userInfo = computed(() => userStore.userInfo)
     </div>
     <div class="flex-1 min-w-0 ml-2.5">
       <h2 class="overflow-hidden text-sm font-semibold text-neutral-700 text-ellipsis whitespace-nowrap">
-        {{ userInfo.name ?? 'Cradle User' }}
+        {{ userInfo.name ?? 'User' }}
       </h2>
     </div>
   </div>

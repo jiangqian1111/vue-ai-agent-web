@@ -1,9 +1,9 @@
 {
-  "name": "cradle-chat",
+  "name": "nova-chat",
   "version": "3.0.0",
   "private": true,
   "description": "A modern AI chat portal — powered by Fetch ReadableStream, Vue 3, and TypeScript",
-  "author": "Cradle Chat <hi@cradle.chat>",
+  "author": "",
   "keywords": [
     "chatgpt-web",
     "chatgpt",

@@ -85,7 +85,7 @@ export default {
     monthlyUsage: '本月使用量',
     openSource: '此项目开源于',
     freeMIT: '免费且基于 MIT 协议，没有任何形式的付费行为',
-    stars: '如果你觉得此项目对你有帮助，请在 GitHub 上给我一个星星或者给予一点赞助，谢谢！',
+    stars: '基于 MIT 协议开源，自由使用与修改。',
   },
   store: {
     siderButton: '提示词商店',

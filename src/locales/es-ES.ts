@@ -85,7 +85,7 @@ export default {
     monthlyUsage: 'Uso mensual de API',
     openSource: 'Este proyecto es de código abierto en',
     freeMIT: 'gratis y basado en la licencia MIT, ¡sin ningún tipo de comportamiento de pago!',
-    stars: 'Si encuentras este proyecto útil, por favor dame una Estrella en GitHub o da un pequeño patrocinio, ¡gracias!',
+    stars: 'Código abierto bajo licencia MIT. Uso y modificación libres.',
   },
   store: {
     siderButton: 'Tienda rápida',
