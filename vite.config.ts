@@ -21,10 +21,15 @@ function setupPlugins(env: ImportMetaEnv): PluginOption[] {
   ]
 }
 
+// ... 前面代码保持不变
+
 export default defineConfig((env) => {
   const viteEnv = loadEnv(env.mode, process.cwd()) as unknown as ImportMetaEnv
 
   return {
+    // 🌟 在这里添加 base 属性
+    base: '/vue-ai-agent-web/', 
+    
     resolve: {
       alias: {
         '@': path.resolve(process.cwd(), 'src'),
