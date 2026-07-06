@@ -2,6 +2,7 @@ import { computed } from 'vue'
 import { enUS, esAR, koKR, ruRU, viVN, zhCN, zhTW } from 'naive-ui'
 import { useAppStore } from '@/store'
 import { setLocale } from '@/locales'
+import esES from '@/locales/es-ES'
 
 export function useLanguage() {
   const appStore = useAppStore()
@@ -12,7 +13,7 @@ export function useLanguage() {
       case 'en-US':
         return enUS
       case 'es-ES':
-        return esAR
+        return esES
       case 'ko-KR':
         return koKR
       case 'vi-VN':

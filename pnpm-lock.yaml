@@ -14,6 +14,9 @@ importers:
       '@vueuse/core':
         specifier: ^9.13.0
         version: 9.13.0(vue@3.2.47)
+      dexie:
+        specifier: ^4.4.4
+        version: 4.4.4
       highlight.js:
         specifier: ^11.7.0
         version: 11.7.0
@@ -298,11 +301,6 @@ packages:
 
   '@babel/parser@7.21.2':
     resolution: {integrity: sha512-URpaIJQwEkEC2T9Kn+Ai6Xe/02iNaVCuT/PtoRz3GPVJVDpPd7mLo+VddTbhCRU9TXqW5mSrQfXZyi8kDKOVpQ==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
-
-  '@babel/parser@7.23.5':
-    resolution: {integrity: sha512-hOOqoiNXrmGdFbhgCzu6GiURxUgM27Xwd/aPuu8RfHEZPBzL1Z54okAHAQjXfcQNwvrlkAmAp4SlRTZ45vlthQ==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -2027,6 +2025,9 @@ packages:
     resolution: {integrity: sha512-v9XE1zRnz1wRtgurGu0Bs8uHKFSTdteYZNbIPFVhUZ39L/S79ppMpdmVOZAnoz1jfEFodc48n6MX483Xo3t1yw==}
     engines: {node: '>=0.8.0'}
     hasBin: true
+
+  dexie@4.4.4:
+    resolution: {integrity: sha512-jIwsYI8Os2hgnqc6O49YwFDKGc5v5QjGx0wPVp543ip1F53VFAKMLthV2pQosQcVTv3eAskTWYspOx195PM0FQ==}
 
   didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
@@ -3863,6 +3864,7 @@ packages:
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
 
   sourcemap-codec@1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
@@ -4545,7 +4547,7 @@ snapshots:
       '@babel/helper-compilation-targets': 7.22.15
       '@babel/helper-module-transforms': 7.23.3(@babel/core@7.23.5)
       '@babel/helpers': 7.23.5
-      '@babel/parser': 7.23.5
+      '@babel/parser': 7.24.7
       '@babel/template': 7.22.15
       '@babel/traverse': 7.23.5
       '@babel/types': 7.23.5
@@ -4708,10 +4710,6 @@ snapshots:
   '@babel/parser@7.21.2':
     dependencies:
       '@babel/types': 7.21.2
-
-  '@babel/parser@7.23.5':
-    dependencies:
-      '@babel/types': 7.23.5
 
   '@babel/parser@7.24.7':
     dependencies:
@@ -5224,7 +5222,7 @@ snapshots:
   '@babel/template@7.22.15':
     dependencies:
       '@babel/code-frame': 7.23.5
-      '@babel/parser': 7.23.5
+      '@babel/parser': 7.24.7
       '@babel/types': 7.23.5
 
   '@babel/traverse@7.23.5':
@@ -5235,7 +5233,7 @@ snapshots:
       '@babel/helper-function-name': 7.23.0
       '@babel/helper-hoist-variables': 7.22.5
       '@babel/helper-split-export-declaration': 7.22.6
-      '@babel/parser': 7.23.5
+      '@babel/parser': 7.24.7
       '@babel/types': 7.23.5
       debug: 4.3.4
       globals: 11.12.0
@@ -6636,6 +6634,8 @@ snapshots:
       acorn-node: 1.8.2
       defined: 1.0.1
       minimist: 1.2.8
+
+  dexie@4.4.4: {}
 
   didyoumean@1.2.2: {}
 
