@@ -26,8 +26,11 @@ export default {
     failed: 'Thất bại',
     verify: 'Xác minh',
     unauthorizedTips: 'Không được ủy quyền, vui lòng xác minh trước.',
+    stopResponding: 'Dừng phản hồi',
   },
   chat: {
+    clearSession: 'Xóa phiên',
+    newChat: 'Tạo hội thoại',
     newChatButton: 'Tạo hội thoại',
     newChatTitle: 'Tạo hội thoại',
     placeholder: 'Hỏi tôi bất cứ điều gì...(Shift + Enter = ngắt dòng, "/" to trigger prompts)',
@@ -52,6 +55,11 @@ export default {
     preview: 'Xem trước',
     showRawText: 'Hiển thị dưới dạng văn bản thô',
     thinking: 'Đang suy nghĩ...',
+    suggestions: {
+      arch: 'Giải thích kiến trúc của dự án này',
+      stream: 'Triển khai kết xuất luồng với Fetch',
+      react: 'Tái cấu trúc một component React',
+    },
   },
   setting: {
     setting: 'Cài đặt',

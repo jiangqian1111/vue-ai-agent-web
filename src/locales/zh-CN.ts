@@ -29,6 +29,8 @@ export default {
     stopResponding: '停止响应',
   },
   chat: {
+    clearSession: '清空会话',
+    newChat: '新建聊天',
     newChatButton: '新建聊天',
     newChatTitle: '新建聊天',
     placeholder: '来说点什么吧...（Shift + Enter = 换行，"/" 触发提示词）',
@@ -53,6 +55,11 @@ export default {
     preview: '预览',
     showRawText: '显示原文',
     thinking: '思考中...',
+    suggestions: {
+      arch: '解释这个项目的架构',
+      stream: '用 Fetch 实现流式渲染',
+      react: '重构一个 React 组件',
+    },
   },
   setting: {
     setting: '设置',

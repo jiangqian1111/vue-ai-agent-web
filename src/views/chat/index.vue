@@ -504,7 +504,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full bg-white">
+  <div class="flex flex-col w-full h-full bg-white dark:bg-zinc-900">
     <!-- 移动端头部 -->
     <HeaderComponent
       v-if="isMobile"
@@ -524,13 +524,13 @@ onUnmounted(() => {
             <!-- 空状态 -->
             <template v-if="!dataSources.length">
               <div class="flex flex-col items-center justify-center mt-32 text-center">
-                <div class="w-16 h-16 mb-4 rounded-2xl bg-neutral-100 flex items-center justify-center">
-                  <SvgIcon icon="ri:bubble-chart-fill" class="text-3xl text-neutral-300" />
+                <div class="w-16 h-16 mb-4 rounded-2xl bg-neutral-100 dark:bg-zinc-800 flex items-center justify-center">
+                  <SvgIcon icon="ri:bubble-chart-fill" class="text-3xl text-neutral-300 dark:text-zinc-600" />
                 </div>
-                <h3 class="text-lg font-semibold text-neutral-400">
+                <h3 class="text-lg font-semibold text-neutral-400 dark:text-zinc-300">
                   {{ t('chat.newChatTitle') }}
                 </h3>
-                <p class="text-sm text-neutral-300 mt-1">
+                <p class="text-sm text-neutral-300 dark:text-zinc-500 mt-1">
                   开始一段新的对话
                 </p>
               </div>
@@ -552,7 +552,7 @@ onUnmounted(() => {
                 <!-- 停止按钮 -->
                 <div v-if="loading" class="sticky bottom-0 left-0 flex justify-center pb-4">
                   <button
-                    class="flex items-center space-x-1.5 px-4 py-2 rounded-full bg-neutral-100 border border-neutral-200 text-sm text-neutral-500 hover:bg-neutral-200 transition-colors"
+                    class="flex items-center space-x-1.5 px-4 py-2 rounded-full bg-neutral-100 dark:bg-zinc-800 border border-neutral-200 dark:border-zinc-700 text-sm text-neutral-500 dark:text-zinc-400 hover:bg-neutral-200 dark:hover:bg-zinc-700 transition-colors"
                     @click="handleStop"
                   >
                     <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
@@ -572,20 +572,20 @@ onUnmounted(() => {
     -->
     <div
       class="shrink-0 px-4 pb-4"
-      :class="isMobile ? 'pt-2' : 'pt-4 bg-gradient-to-t from-white via-white to-transparent'"
+      :class="isMobile ? 'pt-2' : 'pt-4 bg-gradient-to-t from-white dark:from-zinc-900 via-white dark:via-zinc-900 to-transparent'"
     >
       <div class="max-w-3xl mx-auto">
         <!-- 输入卡片 -->
         <div
-          class="relative bg-neutral-50 border border-neutral-200/80 rounded-2xl p-3 shadow-sm hover:border-neutral-300 focus-within:border-neutral-400 focus-within:shadow-md transition-all duration-200"
+          class="relative bg-neutral-50 dark:bg-zinc-800 border border-neutral-200/80 dark:border-zinc-700 rounded-2xl p-3 shadow-sm hover:border-neutral-300 dark:hover:border-zinc-600 focus-within:border-neutral-400 dark:focus-within:border-zinc-500 focus-within:shadow-md transition-all duration-200"
         >
           <!-- 🔥 斜杠指令悬浮窗 -->
           <div
             v-if="showPromptSuggestion"
-            class="absolute bottom-full left-0 right-0 mb-2 bg-white rounded-xl border border-neutral-200/80 shadow-lg overflow-hidden z-50 max-h-60 overflow-y-auto"
+            class="absolute bottom-full left-0 right-0 mb-2 bg-white dark:bg-zinc-800 rounded-xl border border-neutral-200/80 dark:border-zinc-600 shadow-lg overflow-hidden z-50 max-h-60 overflow-y-auto"
           >
             <!-- 标题栏 -->
-            <div class="px-3 py-2 border-b border-neutral-100 text-xs text-neutral-400 font-medium select-none">
+            <div class="px-3 py-2 border-b border-neutral-100 dark:border-zinc-700 text-xs text-neutral-400 dark:text-zinc-400 font-medium select-none">
               提示词命令
             </div>
             <!-- 提示词列表 -->
@@ -594,8 +594,8 @@ onUnmounted(() => {
               :key="item.key"
               class="flex items-center px-3 py-2 cursor-pointer transition-colors text-sm"
               :class="index === activeIndex
-                ? 'bg-blue-50 text-blue-700'
-                : 'hover:bg-neutral-50 text-neutral-700'"
+                ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                : 'hover:bg-neutral-50 dark:hover:bg-zinc-700 text-neutral-700 dark:text-zinc-300'"
               @click="selectPrompt(item)"
               @mouseenter="activeIndex = index"
             >
@@ -603,8 +603,8 @@ onUnmounted(() => {
               <span
                 class="shrink-0 text-xs font-mono px-1.5 py-0.5 rounded mr-2.5"
                 :class="index === activeIndex
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'bg-neutral-100 text-neutral-500'"
+                  ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300'
+                  : 'bg-neutral-100 dark:bg-zinc-700 text-neutral-500 dark:text-zinc-400'"
               >
                 /{{ item.key }}
               </span>
@@ -626,7 +626,7 @@ onUnmounted(() => {
           />
 
           <!-- 工具栏：操作按钮 + 发送 -->
-          <div class="flex items-center justify-between border-t border-neutral-200/50 pt-2.5 mt-2">
+          <div class="flex items-center justify-between border-t border-neutral-200/50 dark:border-zinc-600/50 pt-2.5 mt-2">
             <!-- 左侧工具按钮组 -->
             <div class="flex items-center space-x-1.5">
               <!-- 上下文开关 -->
@@ -634,21 +634,21 @@ onUnmounted(() => {
                 class="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs transition-colors"
                 :class="usingContext
                   ? 'bg-indigo-50 text-indigo-600 border border-indigo-200'
-                  : 'bg-white text-neutral-400 border border-neutral-200 hover:text-neutral-600 hover:bg-neutral-100'"
+                  : 'bg-white dark:bg-zinc-800 text-neutral-400 dark:text-zinc-400 border border-neutral-200 dark:border-zinc-700 hover:text-neutral-600 dark:hover:text-zinc-200 hover:bg-neutral-100 dark:hover:bg-zinc-700'"
                 @click="toggleUsingContext"
               >
                 <SvgIcon icon="ri:chat-history-line" class="text-sm" />
-                <span>上下文</span>
+                <span>{{ t('chat.usingContext') }}</span>
               </button>
 
               <!-- 清空对话 -->
               <button
                 v-if="!isMobile"
-                class="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs bg-white text-neutral-400 border border-neutral-200 hover:text-neutral-600 hover:bg-neutral-100 transition-colors"
+                class="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs bg-white dark:bg-zinc-800 text-neutral-400 dark:text-zinc-400 border border-neutral-200 dark:border-zinc-700 hover:text-neutral-600 dark:hover:text-zinc-200 hover:bg-neutral-100 dark:hover:bg-zinc-700 transition-colors"
                 @click="handleClear"
               >
                 <SvgIcon icon="ri:delete-bin-line" class="text-sm" />
-                <span>清空</span>
+                <span>{{ t('chat.clearSession') }}</span>
               </button>
             </div>
 
@@ -657,7 +657,7 @@ onUnmounted(() => {
               <!-- 导出按钮（桌面端） -->
               <button
                 v-if="!isMobile"
-                class="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-600 hover:bg-neutral-200/60 transition-colors"
+                class="p-1.5 rounded-lg text-neutral-400 dark:text-zinc-400 hover:text-neutral-600 dark:hover:text-zinc-200 hover:bg-neutral-200/60 dark:hover:bg-zinc-700/60 transition-colors"
                 @click="handleExport"
               >
                 <SvgIcon icon="ri:download-2-line" class="text-lg" />
@@ -681,9 +681,9 @@ onUnmounted(() => {
           class="flex items-center justify-center space-x-2 mt-3"
         >
           <button
-            v-for="hint in ['解释这个项目的架构', '用 Fetch 实现流式渲染', '重构一个 React 组件']"
+            v-for="hint in [t('chat.suggestions.arch'), t('chat.suggestions.stream'), t('chat.suggestions.react')]"
             :key="hint"
-            class="text-xs text-neutral-400 bg-neutral-100 hover:bg-neutral-200/80 px-3 py-1.5 rounded-lg border border-neutral-200/40 transition-colors"
+            class="text-xs text-neutral-400 dark:text-zinc-400 bg-neutral-100 dark:bg-zinc-800 hover:bg-neutral-200/80 dark:hover:bg-zinc-700/80 px-3 py-1.5 rounded-lg border border-neutral-200/40 dark:border-zinc-700/40 transition-colors"
             @click="prompt = hint; handleSubmit()"
           >
             {{ hint }}

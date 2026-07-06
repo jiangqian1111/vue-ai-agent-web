@@ -29,6 +29,8 @@ export default {
     stopResponding: '응답 중지',
   },
   chat: {
+    clearSession: '세션 비우기',
+    newChat: '새로운 채팅',
     newChatButton: '새로운 채팅',
     newChatTitle: '새로운 채팅',
     placeholder: '무엇이든 물어보세요...(Shift + Enter = 줄바꿈, "/"를 눌러서 힌트를 보세요)',
@@ -53,6 +55,11 @@ export default {
     preview: '미리보기',
     showRawText: '원본 텍스트로 보기',
     thinking: '생각 중...',
+    suggestions: {
+      arch: '이 프로젝트의 아키텍처 설명하기',
+      stream: 'Fetch를 사용한 스트리밍 렌더링 구현',
+      react: 'React 컴포넌트 리팩토링하기',
+    },
   },
   setting: {
     setting: '설정',
@@ -96,5 +103,6 @@ export default {
     importRepeatTitle: '제목이 반복되어 건너뜀: {msg}',
     importRepeatContent: '내용이 반복되어 건너뜀: {msg}',
     onlineImportWarning: '참고: JSON 파일 소스를 확인하십시오!',
+    downloadError: '네트워크 상태와 JSON 파일 유효성을 확인하십시오',
   },
 }

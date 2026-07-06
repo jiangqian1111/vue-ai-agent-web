@@ -29,6 +29,8 @@ export default {
     stopResponding: '停止回應',
   },
   chat: {
+    clearSession: '清除對話',
+    newChat: '新增對話',
     newChatButton: '新增對話',
     newChatTitle: '新增對話',
     placeholder: '來說點什麼...（Shift + Enter = 換行，"/" 觸發提示詞）',
@@ -53,6 +55,11 @@ export default {
     preview: '預覽',
     showRawText: '顯示原文',
     thinking: '思考中...',
+    suggestions: {
+      arch: '解釋這個專案的架構',
+      stream: '使用 Fetch 實現流式渲染',
+      react: '重構一個 React 元件',
+    },
   },
   setting: {
     setting: '設定',

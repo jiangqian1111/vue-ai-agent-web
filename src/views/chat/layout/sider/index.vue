@@ -20,7 +20,7 @@ const show = ref(false)
 const collapsed = computed(() => appStore.siderCollapsed)
 
 function handleAdd() {
-  chatStore.addHistory({ title: t('chat.newChatTitle'), uuid: Date.now(), isEdit: false })
+  chatStore.addHistory({ title: t('chat.newChat') || 'New Chat', uuid: Date.now(), isEdit: false })
   if (isMobile.value)
     appStore.setSiderCollapsed(true)
 }
@@ -81,8 +81,8 @@ watch(
   -->
   <template v-if="!isMobile || !collapsed">
     <aside
-      class="h-full flex flex-col shrink-0 border-r border-neutral-100"
-      :class="isMobile ? 'w-[260px] fixed z-50 bg-white shadow-2xl' : 'w-[260px] bg-transparent'"
+      class="h-full flex flex-col shrink-0 border-r border-neutral-100 dark:border-zinc-800"
+      :class="isMobile ? 'w-[260px] fixed z-50 bg-white dark:bg-zinc-900 dark:text-zinc-200 shadow-2xl' : 'w-[260px] bg-transparent dark:text-zinc-200'"
       :style="getMobileClass"
     >
       <div class="flex flex-col h-full" :style="mobileSafeArea">

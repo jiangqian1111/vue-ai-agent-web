@@ -8,7 +8,7 @@ const show = ref(false)
 </script>
 
 <template>
-  <footer class="flex items-center justify-between min-w-0 px-4 py-3 border-t border-neutral-100">
+  <footer class="flex items-center justify-between min-w-0 px-4 py-3 border-t border-neutral-100 dark:border-zinc-800">
     <div class="flex-1 flex-shrink-0 overflow-hidden">
       <UserAvatar />
     </div>

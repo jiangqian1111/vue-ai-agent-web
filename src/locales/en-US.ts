@@ -29,6 +29,8 @@ export default {
     stopResponding: 'Stop Responding',
   },
   chat: {
+    clearSession: 'Clear Session',
+    newChat: 'New Chat',
     newChatButton: 'New Chat',
     newChatTitle: 'New Chat',
     placeholder: 'Ask me anything...(Shift + Enter = line break, "/" to trigger prompts)',
@@ -53,6 +55,11 @@ export default {
     preview: 'Preview',
     showRawText: 'Show as raw text',
     thinking: 'Thinking...',
+    suggestions: {
+      arch: 'Explain the architecture of this project',
+      stream: 'Implement streaming rendering with Fetch',
+      react: 'Refactor a React component',
+    },
   },
   setting: {
     setting: 'Setting',

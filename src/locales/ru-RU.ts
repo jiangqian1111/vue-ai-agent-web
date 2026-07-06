@@ -29,6 +29,8 @@ export default {
     stopResponding: 'Прекращение отклика',
   },
   chat: {
+    clearSession: 'Очистить сессию',
+    newChat: 'Новый чат',
     newChatButton: 'Новый чат',
     newChatTitle: 'Новый чат',
     placeholder: 'Спросите меня о чем-нибудь ... (Shift + Enter = перенос строки, "/" для вызова подсказок)',
@@ -53,6 +55,11 @@ export default {
     preview: 'Предварительный просмотр',
     showRawText: 'Показать как обычный текст',
     thinking: 'Думаю...',
+    suggestions: {
+      arch: 'Объяснить архитектуру этого проекта',
+      stream: 'Реализовать потоковый рендеринг с помощью Fetch',
+      react: 'Рефакторинг компонента React',
+    },
   },
   setting: {
     setting: 'Настройки',

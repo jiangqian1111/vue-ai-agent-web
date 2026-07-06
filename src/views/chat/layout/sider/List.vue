@@ -54,7 +54,7 @@ function isActive(uuid: number) {
   <NScrollbar class="px-4">
     <div class="flex flex-col gap-2 text-sm">
       <template v-if="!dataSources.length">
-        <div class="flex flex-col items-center mt-4 text-center text-neutral-300">
+        <div class="flex flex-col items-center mt-4 text-center text-neutral-300 dark:text-zinc-500">
           <SvgIcon icon="ri:inbox-line" class="mb-2 text-3xl" />
           <span>{{ $t('common.noData') }}</span>
         </div>
@@ -75,7 +75,7 @@ function isActive(uuid: number) {
                 v-model:value="item.title" size="tiny"
                 @keypress="handleEnter(item, false, $event)"
               />
-              <span v-else>{{ item.title }}</span>
+              <span v-else>{{ (item.title === '新建聊天' || item.title === 'New Chat' || !item.title) ? $t('chat.newChat') : item.title }}</span>
             </div>
             <div v-if="isActive(item.uuid)" class="absolute z-10 flex visible right-1">
               <template v-if="item.isEdit">

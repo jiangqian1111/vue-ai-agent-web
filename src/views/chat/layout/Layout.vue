@@ -24,7 +24,7 @@ const needPermission = computed(() => !!authStore.session?.auth && !authStore.to
   -->
   <div
     class="h-screen w-screen flex overflow-hidden font-sans antialiased select-none"
-    :class="isMobile ? 'bg-white' : 'bg-[#f4f4f5] p-4'"
+    :class="isMobile ? 'bg-white dark:bg-zinc-900' : 'bg-[#f4f4f5] dark:bg-zinc-950 p-4'"
   >
     <!--
       主容器：白色圆角卡片，带微阴影和极细边框
@@ -33,32 +33,26 @@ const needPermission = computed(() => !!authStore.session?.auth && !authStore.to
     -->
     <div
       class="flex flex-1 h-full w-full overflow-hidden"
-      :class="isMobile ? '' : 'bg-white rounded-3xl border border-neutral-200/50 shadow-sm'"
+      :class="isMobile ? '' : 'bg-white dark:bg-zinc-900 rounded-3xl border border-neutral-200/50 dark:border-zinc-800 shadow-sm'"
     >
       <!-- 侧边栏区域 -->
       <Sider />
 
       <!-- 主内容区 -->
-      <main class="flex-1 h-full flex flex-col overflow-hidden min-w-0 bg-white">
+      <main class="flex-1 h-full flex flex-col overflow-hidden min-w-0 bg-white dark:bg-zinc-900">
         <!--
           macOS 风格顶部栏
           包含红绿黄窗口按钮 + 会话标签
         -->
         <header
           v-if="!isMobile"
-          class="h-12 border-b border-neutral-100 px-5 flex items-center justify-between bg-neutral-50/50 shrink-0"
+          class="h-12 border-b border-neutral-100 dark:border-zinc-800 px-5 flex items-center justify-between bg-neutral-50/50 dark:bg-zinc-900/50 shrink-0"
         >
-          <div class="flex items-center space-x-2">
-            <!-- Mac 窗口红绿灯按钮 -->
-            <div class="flex space-x-1.5 mr-3">
-              <span class="w-3 h-3 rounded-full bg-[#ff5f56]"></span>
-              <span class="w-3 h-3 rounded-full bg-[#ffbd2e]"></span>
-              <span class="w-3 h-3 rounded-full bg-[#27c93f]"></span>
-            </div>
+          <div class="flex items-center">
             <!-- 当前会话标签 -->
-            <div class="flex items-center bg-white/80 px-3 py-1 rounded-lg border border-neutral-200/60 text-xs font-medium text-neutral-600 shadow-sm">
+            <div class="flex items-center bg-white/80 dark:bg-zinc-800/80 px-3 py-1 rounded-lg border border-neutral-200/60 dark:border-zinc-700 text-xs font-medium text-neutral-600 dark:text-zinc-300 shadow-sm">
               <span class="mr-1.5 text-xs">💬</span>
-              <span>Cradle Chat</span>
+              <span>Nova Chat</span>
             </div>
           </div>
           <!-- 右侧状态 -->

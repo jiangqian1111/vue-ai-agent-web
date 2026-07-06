@@ -29,6 +29,8 @@ export default {
     stopResponding: 'No responde',
   },
   chat: {
+    clearSession: 'Limpiar sesión',
+    newChat: 'Nueva conversación',
     newChatButton: 'Nueva conversación',
     newChatTitle: 'Nueva conversación',
     placeholder: 'Pregúntame lo que sea...(Shift + Enter = salto de línea, "/" para activar avisos)',
@@ -52,6 +54,12 @@ export default {
     clearHistoryConfirm: '¿Estás seguro de borrar el historial de chat?',
     preview: 'Avance',
     showRawText: 'Mostrar como texto sin formato',
+    thinking: 'Pensando...',
+    suggestions: {
+      arch: 'Explicar la arquitectura de este proyecto',
+      stream: 'Implementar renderizado continuo con Fetch',
+      react: 'Refactorizar un componente de React',
+    },
   },
   setting: {
     setting: 'Configuración',
