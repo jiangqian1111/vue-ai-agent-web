@@ -1,9 +1,9 @@
 <script setup lang='ts'>
 import type { Ref } from 'vue'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { NAutoComplete, NInput, useDialog, useMessage } from 'naive-ui'
+import { NInput, useDialog, useMessage } from 'naive-ui'
 import { toPng } from 'html-to-image'
 import { Message } from './components'
 import { useScroll } from './hooks/useScroll'
@@ -386,31 +386,100 @@ function handleStop() {
   }
 }
 
-// 可优化部分
-// 搜索选项计算，这里使用value作为索引项，所以当出现重复value时渲染异常(多项同时出现选中效果)
-// 理想状态下其实应该是key作为索引项,但官方的renderOption会出现问题，所以就需要value反renderLabel实现
-const searchOptions = computed(() => {
-  if (prompt.value.startsWith('/')) {
-    return promptTemplate.value.filter((item: { key: string }) => item.key.toLowerCase().includes(prompt.value.substring(1).toLowerCase())).map((obj: { value: any }) => {
-      return {
-        label: obj.value,
-        value: obj.value,
-      }
-    })
-  }
-  else {
+// ==================================================
+// 🔥 / 斜杠指令悬浮窗系统
+// ==================================================
+
+/** 键盘当前高亮的提示词索引 */
+const activeIndex = ref(0)
+
+/** 用户是否按 Esc 手动关闭了悬浮窗 */
+const promptSuggestionDismissed = ref(false)
+
+/** 内置默认提示词（prompt store 为空时使用） */
+const BUILT_IN_PROMPTS: Array<{ key: string; value: string }> = [
+  { key: 'translate', value: '请将以下内容翻译成中文：' },
+  { key: 'summarize', value: '请总结以下内容的核心要点：' },
+  { key: 'explain', value: '请用通俗易懂的语言解释以下概念：' },
+  { key: 'code-review', value: '请对以下代码进行审查，指出问题和改进建议：' },
+  { key: 'rewrite', value: '请重写以下内容，使其更加简洁流畅：' },
+  { key: 'brainstorm', value: '请针对以下主题进行头脑风暴，给出多个创意方向：' },
+  { key: 'refactor', value: '请重构以下代码，提高可读性和可维护性：' },
+  { key: 'fix', value: '以下代码有 bug，请帮我找出并修复：' },
+]
+
+/** 模糊过滤：对提示词的 key 和 value 做双字段包含匹配 */
+const filteredPrompts = computed(() => {
+  if (!prompt.value.startsWith('/'))
     return []
-  }
+
+  // 优先使用用户自定义提示词，为空时回退到内置默认
+  const source = (promptTemplate.value.length > 0
+    ? promptTemplate.value
+    : BUILT_IN_PROMPTS) as Array<{ key: string; value: string }>
+
+  const keyword = prompt.value.substring(1).toLowerCase().trim()
+  if (!keyword)
+    return source
+
+  return source.filter(
+    item =>
+      item.key.toLowerCase().includes(keyword)
+      || item.value.toLowerCase().includes(keyword),
+  )
 })
 
-// value反渲染key
-const renderOption = (option: { label: string }) => {
-  for (const i of promptTemplate.value) {
-    if (i.value === option.label)
-      return [i.key]
-  }
-  return []
+/** 是否显示悬浮窗 */
+const showPromptSuggestion = computed(() =>
+  !promptSuggestionDismissed.value
+  && prompt.value.startsWith('/')
+  && filteredPrompts.value.length > 0,
+)
+
+/** 选中某条提示词：用 value 替换输入框中的 / 指令 */
+function selectPrompt(item: { key: string; value: string }) {
+  prompt.value = item.value
+  promptSuggestionDismissed.value = true
+  nextTick(() => {
+    inputRef.value?.focus()
+  })
 }
+
+/** 键盘导航：上/下键移动高亮，Enter 选中，Esc 关闭 */
+function handleKeydown(event: KeyboardEvent) {
+  if (!showPromptSuggestion.value)
+    return
+
+  if (event.key === 'ArrowDown') {
+    event.preventDefault()
+    activeIndex.value = Math.min(activeIndex.value + 1, filteredPrompts.value.length - 1)
+  }
+  else if (event.key === 'ArrowUp') {
+    event.preventDefault()
+    activeIndex.value = Math.max(activeIndex.value - 1, 0)
+  }
+  else if (event.key === 'Escape') {
+    event.preventDefault()
+    promptSuggestionDismissed.value = true
+  }
+  else if (event.key === 'Enter') {
+    event.preventDefault()
+    if (filteredPrompts.value[activeIndex.value])
+      selectPrompt(filteredPrompts.value[activeIndex.value])
+  }
+}
+
+// 当输入内容变化时，重置悬浮窗状态
+watch(prompt, () => {
+  promptSuggestionDismissed.value = false
+  activeIndex.value = 0
+})
+
+// 当过滤结果变化时，确保 activeIndex 不越界
+watch(filteredPrompts, (list) => {
+  if (activeIndex.value >= list.length)
+    activeIndex.value = Math.max(0, list.length - 1)
+})
 
 const placeholder = computed(() => {
   if (isMobile.value)
@@ -508,30 +577,53 @@ onUnmounted(() => {
       <div class="max-w-3xl mx-auto">
         <!-- 输入卡片 -->
         <div
-          class="bg-neutral-50 border border-neutral-200/80 rounded-2xl p-3 shadow-sm hover:border-neutral-300 focus-within:border-neutral-400 focus-within:shadow-md transition-all duration-200"
+          class="relative bg-neutral-50 border border-neutral-200/80 rounded-2xl p-3 shadow-sm hover:border-neutral-300 focus-within:border-neutral-400 focus-within:shadow-md transition-all duration-200"
         >
-          <!-- 文本输入区 -->
-          <NAutoComplete
-            v-model:value="prompt"
-            :options="searchOptions"
-            :render-label="renderOption"
-            :class="isMobile ? 'w-full' : 'w-full'"
+          <!-- 🔥 斜杠指令悬浮窗 -->
+          <div
+            v-if="showPromptSuggestion"
+            class="absolute bottom-full left-0 right-0 mb-2 bg-white rounded-xl border border-neutral-200/80 shadow-lg overflow-hidden z-50 max-h-60 overflow-y-auto"
           >
-            <template #default="{ handleInput, handleBlur, handleFocus }">
-              <NInput
-                ref="inputRef"
-                v-model:value="prompt"
-                type="textarea"
-                :placeholder="placeholder"
-                :autosize="{ minRows: 1, maxRows: isMobile ? 4 : 8 }"
-                class="!bg-transparent"
-                @input="handleInput"
-                @focus="handleFocus"
-                @blur="handleBlur"
-                @keypress="handleEnter"
-              />
-            </template>
-          </NAutoComplete>
+            <!-- 标题栏 -->
+            <div class="px-3 py-2 border-b border-neutral-100 text-xs text-neutral-400 font-medium select-none">
+              提示词命令
+            </div>
+            <!-- 提示词列表 -->
+            <div
+              v-for="(item, index) in filteredPrompts"
+              :key="item.key"
+              class="flex items-center px-3 py-2 cursor-pointer transition-colors text-sm"
+              :class="index === activeIndex
+                ? 'bg-blue-50 text-blue-700'
+                : 'hover:bg-neutral-50 text-neutral-700'"
+              @click="selectPrompt(item)"
+              @mouseenter="activeIndex = index"
+            >
+              <!-- 快捷键标签 -->
+              <span
+                class="shrink-0 text-xs font-mono px-1.5 py-0.5 rounded mr-2.5"
+                :class="index === activeIndex
+                  ? 'bg-blue-100 text-blue-600'
+                  : 'bg-neutral-100 text-neutral-500'"
+              >
+                /{{ item.key }}
+              </span>
+              <!-- 内容预览 -->
+              <span class="truncate">{{ item.value }}</span>
+            </div>
+          </div>
+
+          <!-- 文本输入区 -->
+          <NInput
+            ref="inputRef"
+            v-model:value="prompt"
+            type="textarea"
+            :placeholder="placeholder"
+            :autosize="{ minRows: 1, maxRows: isMobile ? 4 : 8 }"
+            class="!bg-transparent"
+            @keydown="handleKeydown"
+            @keypress="handleEnter"
+          />
 
           <!-- 工具栏：操作按钮 + 发送 -->
           <div class="flex items-center justify-between border-t border-neutral-200/50 pt-2.5 mt-2">
