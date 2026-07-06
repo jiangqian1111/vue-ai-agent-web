@@ -69,8 +69,8 @@ export class ChatDatabase extends Dexie {
       // conversations 以 uuid 为主键
       conversations: '&uuid',
 
-      // messages 自增主键，conversationUuid + sortIndex 建立复合索引便于查询
-      messages: '++id, [conversationUuid+sortIndex]',
+      // messages 自增主键，单独索引 + 复合索引覆盖各种查询场景
+      messages: '++id, conversationUuid, sortIndex, [conversationUuid+sortIndex]',
 
       // settings 只有一行，id 固定为 1
       settings: '&id',

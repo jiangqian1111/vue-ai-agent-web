@@ -2,8 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { setupI18n } from './locales'
 import { setupAssets, setupScrollbarStyle } from './plugins'
-import { setupStore } from './store'
-import { useChatStore } from './store'
+import { setupStore, useChatStore } from './store'
+import { store } from './store/helper'
 import { setupRouter } from './router'
 
 async function bootstrap() {
@@ -17,7 +17,8 @@ async function bootstrap() {
   setupI18n(app)
 
   // 从 IndexedDB 加载持久化的聊天数据
-  const chatStore = useChatStore()
+  // 显式传入 pinia 实例 —— 因为不在组件的 setup() 上下文中
+  const chatStore = useChatStore(store)
   await chatStore.hydrate()
 
   await setupRouter(app)

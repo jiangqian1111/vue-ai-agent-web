@@ -54,8 +54,14 @@ export async function getLocalState(): Promise<Chat.ChatState | null> {
 /**
  * 将聊天状态写入 IndexedDB
  * 在一个事务中完成三张表的替换
+ *
+ * 注意：state 是 Pinia 的响应式 Proxy 对象，IndexedDB 无法对其进行结构化克隆。
+ * 因此先通过 JSON 往返做深拷贝脱壳，得到一个纯 JavaScript 对象再写入。
  */
 export async function setLocalState(state: Chat.ChatState): Promise<void> {
+  // 脱壳：Vue Proxy → 纯 JS 对象，解决 DataCloneError
+  const rawState: Chat.ChatState = JSON.parse(JSON.stringify(state))
+
   await db.transaction('rw', db.conversations, db.messages, db.settings, async () => {
     // 1. 清空旧数据
     await db.conversations.clear()
@@ -63,11 +69,11 @@ export async function setLocalState(state: Chat.ChatState): Promise<void> {
 
     // 2. 写入会话列表
     await db.conversations.bulkPut(
-      state.history.map(h => ({ uuid: h.uuid, title: h.title, isEdit: h.isEdit })),
+      rawState.history.map(h => ({ uuid: h.uuid, title: h.title, isEdit: h.isEdit })),
     )
 
     // 3. 将嵌套的 chat[].data[] 展平为 messages，附带 conversationUuid 和 sortIndex
-    const messages: Message[] = state.chat.flatMap(chatEntry =>
+    const messages: Message[] = rawState.chat.flatMap(chatEntry =>
       chatEntry.data.map((msg, index) => ({
         conversationUuid: chatEntry.uuid,
         sortIndex: index,
@@ -76,7 +82,7 @@ export async function setLocalState(state: Chat.ChatState): Promise<void> {
         inversion: msg.inversion,
         error: msg.error,
         loading: msg.loading,
-        conversationOptions: msg.conversationOptions,
+        conversationOptions: msg.conversationOptions ?? undefined,
         requestOptions: msg.requestOptions,
       })),
     )
@@ -87,8 +93,8 @@ export async function setLocalState(state: Chat.ChatState): Promise<void> {
     // 4. 写入全局设置（upsert）
     await db.settings.put({
       id: 1,
-      active: state.active,
-      usingContext: state.usingContext,
+      active: rawState.active,
+      usingContext: rawState.usingContext,
     })
   })
 }
