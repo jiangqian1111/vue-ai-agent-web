@@ -11,12 +11,14 @@ interface SessionResponse {
 export interface AuthState {
   token: string | undefined
   session: SessionResponse | null
+  offlineMode: boolean
 }
 
 export const useAuthStore = defineStore('auth-store', {
   state: (): AuthState => ({
     token: getToken(),
     session: null,
+    offlineMode: false,
   }),
 
   getters: {
@@ -40,6 +42,12 @@ export const useAuthStore = defineStore('auth-store', {
     setToken(token: string) {
       this.token = token
       setToken(token)
+    },
+
+    /** 进入离线预览模式：注入 mock session 使路由守卫放行 */
+    setOfflineSession() {
+      this.session = { auth: false, model: 'ChatGPTAPI' }
+      this.offlineMode = true
     },
 
     removeToken() {

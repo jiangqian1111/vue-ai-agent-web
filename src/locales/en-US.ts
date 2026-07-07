@@ -55,6 +55,7 @@ export default {
     preview: 'Preview',
     showRawText: 'Show as raw text',
     thinking: 'Thinking...',
+    offlineTip: 'Preview Mode — deploy locally with a backend to enable conversation.',
     suggestions: {
       arch: 'Explain the architecture of this project',
       stream: 'Implement streaming rendering with Fetch',

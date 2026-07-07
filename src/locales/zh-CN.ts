@@ -55,6 +55,7 @@ export default {
     preview: '预览',
     showRawText: '显示原文',
     thinking: '思考中...',
+    offlineTip: '预览模式 — 需本地部署并启动后端服务才能进行对话。',
     suggestions: {
       arch: '解释这个项目的架构',
       stream: '用 Fetch 实现流式渲染',

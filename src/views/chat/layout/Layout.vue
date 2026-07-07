@@ -10,6 +10,8 @@ const router = useRouter()
 const chatStore = useChatStore()
 const authStore = useAuthStore()
 
+const isOfflineMode = computed(() => authStore.offlineMode)
+
 router.replace({ name: 'Chat', params: { uuid: chatStore.active } })
 
 const { isMobile } = useBasicLayout()
@@ -57,7 +59,14 @@ const needPermission = computed(() => !!authStore.session?.auth && !authStore.to
           </div>
           <!-- 右侧状态 -->
           <div class="text-xs text-neutral-400 flex items-center space-x-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            <span
+              v-if="isOfflineMode"
+              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800"
+            >
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+              Preview Mode (Offline)
+            </span>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             <span>API Connected</span>
           </div>
         </header>

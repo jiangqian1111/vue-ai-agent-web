@@ -12,7 +12,7 @@ import { useUsingContext } from './hooks/useUsingContext'
 import HeaderComponent from './components/Header/index.vue'
 import { SvgIcon } from '@/components/common'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
-import { useChatStore, usePromptStore } from '@/store'
+import { useAuthStore, useChatStore, usePromptStore } from '@/store'
 import { fetchChatAPIProcess } from '@/api'
 import { t } from '@/locales'
 
@@ -56,6 +56,8 @@ function handleSubmit() {
   onConversation()
 }
 
+const authStore = useAuthStore()
+
 async function onConversation() {
   let message = prompt.value
 
@@ -64,6 +66,12 @@ async function onConversation() {
 
   if (!message || message.trim() === '')
     return
+
+  // 🌐 离线预览模式：拦截发送，弹 toast 提示
+  if (authStore.offlineMode) {
+    ms.warning(t('chat.offlineTip') || 'Preview Mode — deploy locally with a backend to enable conversation.')
+    return
+  }
 
   controller = new AbortController()
 
