@@ -277,6 +277,3 @@ nova-chat/
 
 ---
 
-## License
-
-MIT · Free to use, modify, and distribute.
