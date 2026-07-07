@@ -1,9 +1,11 @@
 .markdown-body {
 	background-color: transparent;
 	font-size: 14px;
+	line-height: 1.75;
 
 	p {
 		white-space: pre-wrap;
+		line-height: 1.75;
 	}
 
 	ol {
@@ -21,7 +23,9 @@
 
 	.highlight pre,
 	pre {
-		background-color: #fff;
+		background-color: #f8f8f8;
+		border: 1px solid #e8e8e8;
+		border-radius: 8px;
 	}
 
 	code.hljs {
@@ -60,10 +64,10 @@
 	// Mermaid
 	div[id^='mermaid-container'] {
 		padding: 4px;
-		border-radius: 4px;
+		border-radius: 8px;
 		overflow-x: auto !important;
-		background-color: #fff;
-		border: 1px solid #e5e5e5;
+		background-color: #f8f8f8;
+		border: 1px solid #e8e8e8;
 	}
 
 	&.markdown-body-generate>dd:last-child:after,
@@ -100,6 +104,17 @@ html.dark {
 
 	.markdown-body {
 
+		.highlight pre,
+		pre {
+			background-color: #1e1e24;
+			border-color: #2e2e38;
+		}
+
+		div[id^='mermaid-container'] {
+			background-color: #1e1e24;
+			border-color: #2e2e38;
+		}
+
 		&.markdown-body-generate>dd:last-child:after,
 		&.markdown-body-generate>dl:last-child:after,
 		&.markdown-body-generate>dt:last-child:after,
@@ -124,11 +139,6 @@ html.dark {
 			white-space: pre-wrap;
 			color: var(--n-text-color);
 		}
-	}
-
-	.highlight pre,
-	pre {
-		background-color: #282c34;
 	}
 }
 

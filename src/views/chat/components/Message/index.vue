@@ -1,7 +1,6 @@
 <script setup lang='ts'>
 import { computed, ref } from 'vue'
 import { NDropdown, useMessage } from 'naive-ui'
-import AvatarComponent from './Avatar.vue'
 import TextComponent from './Text.vue'
 import { SvgIcon } from '@/components/common'
 import { useIconRender } from '@/hooks/useIconRender'
@@ -95,51 +94,57 @@ async function handleCopy() {
 <template>
   <div
     ref="messageRef"
-    class="flex w-full mb-6 overflow-hidden"
-    :class="[{ 'flex-row-reverse': inversion }]"
+    class="flex w-full"
+    :class="inversion ? 'mb-6' : 'mb-10'"
   >
-    <div
-      class="flex items-center justify-center flex-shrink-0 h-8 overflow-hidden rounded-full basis-8"
-      :class="[inversion ? 'ml-2' : 'mr-2']"
-    >
-      <AvatarComponent :image="inversion" />
-    </div>
-    <div class="overflow-hidden text-sm " :class="[inversion ? 'items-end' : 'items-start']">
-      <p class="text-xs text-[#b4bbc4]" :class="[inversion ? 'text-right' : 'text-left']">
-        {{ dateTime }}
-      </p>
-      <div
-        class="flex items-end gap-1 mt-2"
-        :class="[inversion ? 'flex-row-reverse' : 'flex-row']"
-      >
-        <TextComponent
-          ref="textRef"
-          :inversion="inversion"
-          :error="error"
-          :text="text"
-          :loading="loading"
-          :as-raw-text="asRawText"
-        />
-        <div class="flex flex-col">
-          <button
-            v-if="!inversion"
-            class="mb-2 transition text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-300"
-            @click="handleRegenerate"
-          >
-            <SvgIcon icon="ri:restart-line" />
-          </button>
-          <NDropdown
-            :trigger="isMobile ? 'click' : 'hover'"
-            :placement="!inversion ? 'right' : 'left'"
-            :options="options"
-            @select="handleSelect"
-          >
-            <button class="transition text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-200">
-              <SvgIcon icon="ri:more-2-fill" />
-            </button>
-          </NDropdown>
-        </div>
+    <!-- 内容区 -->
+    <div class="flex-1 min-w-0 overflow-hidden">
+      <!-- 顶行：用户名 + 时间戳 -->
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-sm font-semibold text-neutral-800 dark:text-neutral-200">
+          {{ inversion ? 'You' : 'Nova AI' }}
+        </span>
+        <span class="text-xs text-neutral-400 dark:text-neutral-500">
+          {{ dateTime }}
+        </span>
       </div>
+
+      <!-- 消息正文（无气泡、全平铺） -->
+      <TextComponent
+        ref="textRef"
+        :inversion="inversion"
+        :error="error"
+        :text="text"
+        :loading="loading"
+        :as-raw-text="asRawText"
+      />
+
+      <!-- 底部操作栏（hover 渐显） -->
+      <div class="flex items-center gap-0.5 mt-1.5 opacity-0 hover:opacity-100 transition-opacity duration-200">
+        <button
+          v-if="!inversion"
+          class="p-0.5 transition text-neutral-300 hover:text-neutral-600 dark:hover:text-neutral-300"
+          @click="handleRegenerate"
+        >
+          <SvgIcon icon="ri:restart-line" />
+        </button>
+        <NDropdown
+          :trigger="isMobile ? 'click' : 'hover'"
+          placement="right"
+          :options="options"
+          @select="handleSelect"
+        >
+          <button class="p-0.5 transition text-neutral-300 hover:text-neutral-500 dark:hover:text-neutral-300">
+            <SvgIcon icon="ri:more-2-fill" />
+          </button>
+        </NDropdown>
+      </div>
+
+      <!-- 微妙的水平分隔线（AI 消息后） -->
+      <div
+        v-if="!inversion"
+        class="mt-6 border-b border-neutral-100 dark:border-zinc-800"
+      />
     </div>
   </div>
 </template>

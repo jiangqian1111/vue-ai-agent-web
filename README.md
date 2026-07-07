@@ -117,6 +117,59 @@ fetch() → response.body.getReader() → TextDecoder（流式 UTF-8 解码）
 
 ---
 
+## 📸 在线展示说明
+
+> **⚠️ 由于 GitHub Pages 仅支持静态托管，在线预览版仅供 UI/UX 交互展示。**
+>
+> 完整功能（流式对话、多模型代理切换、IndexedDB 持久化）需本地部署后体验，详见下方 [快速启动](#快速启动)。
+
+## 🖼️ 功能截图
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <strong>Mac 视窗化 UI 系统（Dark Mode）</strong>
+      <br><br>
+      <img src="docs/screenshots/dark-mode.png" alt="Mac 视窗化 UI 系统" />
+      <br><br>
+      <sub>
+        基于 <b>Tailwind CSS</b> Floating Card 架构：<code>rounded-3xl</code> 大圆角 + <code>shadow-sm</code> 微阴影 + 极细边框，覆盖 <code>dark:</code> 全组件变体，支持跟随系统或手动切换 Light / Dark 双主题
+      </sub>
+    </td>
+    <td width="50%" align="center">
+      <strong>7 国语言 i18n 切换</strong>
+      <br><br>
+      <img src="docs/screenshots/i18n.png" alt="7 国语言 i18n 切换" />
+      <br><br>
+      <sub>
+        基于 <b>vue-i18n</b> 的全语种本地化体系：简体中文 · 繁體中文 · English · Español · 한국어 · Русский · Tiếng Việt，<b>Naive UI</b> 组件库 locale 随业务文案同步联动，<code>fallbackLocale: 'en-US'</code> 保证缺 key 不报错
+      </sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <strong>自研斜杠指令组件</strong>
+      <br><br>
+      <img src="docs/screenshots/slash-commands.png" alt="自研斜杠指令组件" />
+      <br><br>
+      <sub>
+        输入 <code>/</code> 触发的 <b>Slash Commands</b> 悬浮面板：↑↓ 键盘导航 + Enter 选中替换 + Esc 关闭 + 双字段模糊匹配（key + value），配合 <b>Prompt 商店</b> 支持 JSON 导入导出与在线推荐源
+      </sub>
+    </td>
+    <td width="50%" align="center">
+      <strong>IndexedDB 本地持久化层</strong>
+      <br><br>
+      <img src="docs/screenshots/indexeddb.png" alt="IndexedDB 本地持久化层" />
+      <br><br>
+      <sub>
+        基于 <b>Dexie.js</b> 的三表关系型本地存储：<b>Lazy Hydration</b>（惰性水合策略避免首屏白屏）+ <b>Proxy Unwrapping</b>（写时脱壳解决 DataCloneError）+ <code>transaction('rw')</code> 事务原子写入保证数据一致性
+      </sub>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 快速启动
 
 ### 环境

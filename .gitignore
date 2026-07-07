@@ -31,3 +31,6 @@ coverage
 # Environment variables files
 /service/.env
 .claude/
+node_modules/
+dist/
+.git/
