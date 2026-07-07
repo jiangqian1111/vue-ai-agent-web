@@ -2,20 +2,16 @@ import type { Router } from 'vue-router'
 import { useAuthStoreWithout } from '@/store/modules/auth'
 
 export function setupPageGuard(router: Router) {
-  router.beforeEach(async (to, _from, next) => {
+  router.beforeEach(async (_to, _from, next) => {
     const authStore = useAuthStoreWithout()
 
-    // 500 页面始终放行，避免死循环
-    if (to.path === '/500') {
-      next()
-      return
-    }
-
+    // session 已存在（正常登录或已进入离线模式），直接放行
     if (authStore.session) {
       next()
       return
     }
 
+    // 尝试请求 /api/session
     try {
       const data = await authStore.getSession()
       if (String(data.auth) === 'false' && authStore.token)
@@ -23,8 +19,8 @@ export function setupPageGuard(router: Router) {
       next()
     }
     catch {
-      // 🌐 离线预览模式：API 不可达（GitHub Pages 等纯静态托管场景）
-      // 注入 mock session 放行，展示完整 UI，不跳转 500
+      // 请求失败（GitHub Pages 无后端 / 断网 / 任何原因）
+      // → 进入离线预览模式，展示完整 UI，绝不跳转错误页
       authStore.setOfflineSession()
       next()
     }
