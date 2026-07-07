@@ -5,7 +5,6 @@
   <img src="https://img.shields.io/badge/Tailwind_CSS-3.2-06B6D4?logo=tailwindcss" alt="Tailwind">
   <img src="https://img.shields.io/badge/Pinia-2.0-yellow?logo=vuedotjs" alt="Pinia">
   <img src="https://img.shields.io/badge/Dexie.js-4.4-DF473B?logo=indexeddb" alt="Dexie.js">
-  <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
 </p>
 
 <h1 align="center">Nova Chat</h1>
