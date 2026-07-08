@@ -16,7 +16,7 @@ export function defaultSetting(): UserState {
   return {
     userInfo: {
       avatar: 'https://avatars.githubusercontent.com/u/0?v=4',
-      name: 'Cradle User',
+      name: 'User',
       description: 'AI Agent Portal',
     },
   }
